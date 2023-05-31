@@ -13,7 +13,7 @@ import "./styles.css";
 
 const Header = ({ setComunes, siglas }) => {
   const [selectedOption, setSelectedOption] = useState("");
-  const [selectedSigla, setSelectedSigla] = useState("");
+  const [selectedSigla, setSelectedSigla] = useState(""); 
   const [showDropdown, setShowDropDown] = useState(false);
 
   const handleOptionChange = (event) => {
@@ -22,7 +22,6 @@ const Header = ({ setComunes, siglas }) => {
   };
 
   useEffect(() => {
-    console.log(selectedOption);
     const shouldShowDropdown =
       selectedOption === "getComunesOrderedByTwoDosesFromProvince" ||
       selectedOption === "getComuneWithMoreOneDoseFromProvince" ||
@@ -36,7 +35,7 @@ const Header = ({ setComunes, siglas }) => {
     getComuneWithMoreTwoDoses,
     getComuneWithLessOneDose,
     getComunesOrderedByTwoDosesFromProvince: () =>
-      getComunesOrderedByTwoDosesFromProvince(selectedSigla), // Pass the selectedSigla as the province parameter
+      getComunesOrderedByTwoDosesFromProvince(selectedSigla),
     getComuneWithMoreOneDoseFromProvince: () =>
       getComuneWithMoreOneDoseFromProvince(selectedSigla),
     getComuneWithMoreTwoDosesFromProvince: () =>

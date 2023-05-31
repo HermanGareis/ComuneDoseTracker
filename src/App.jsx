@@ -12,7 +12,6 @@ export default function App() {
   const [siglas, setSiglas] = useState([]);
 
   useEffect(() => {
-    // Function to fetch data from API
     getComunesOrderedByTwoDoses()
       .then((res) => res.json())
       .then((data) => {
@@ -31,13 +30,13 @@ export default function App() {
   }, [allComunes]);
 
   return (
-    <div className="content">
+    <>
       <div>
         <Header setComunes={setComunes} siglas={siglas} />
       </div>
       <div>
         <MyTable items={comunes} />
       </div>
-    </div>
+    </>
   );
 }
