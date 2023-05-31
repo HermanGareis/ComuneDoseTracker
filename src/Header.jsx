@@ -7,14 +7,21 @@ import {
   getComuneWithMoreTwoDosesFromProvince,
   getComuneWithMoreTwoDoses,
   getComuneWithLessOneDose,
+  getTotalNumberOfOneDose,
+  getTotalNumberOfTwoDoses,
+  getTotalNumberOfOneDoseFromProvince,
+  getTotalNumberOfTwoDosesFromProvince,
 } from "./client";
 import DropDown from "./DropDown";
 import "./styles.css";
+import MyModal from "./MyModal";
 
 const Header = ({ setComunes, siglas }) => {
   const [selectedOption, setSelectedOption] = useState("");
-  const [selectedSigla, setSelectedSigla] = useState(""); 
+  const [selectedSigla, setSelectedSigla] = useState("");
   const [showDropdown, setShowDropDown] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [dosiAmmount, setDosiAmmount] = useState(0);
 
   const handleOptionChange = (event) => {
     const value = event.target.value;
@@ -25,11 +32,21 @@ const Header = ({ setComunes, siglas }) => {
     const shouldShowDropdown =
       selectedOption === "getComunesOrderedByTwoDosesFromProvince" ||
       selectedOption === "getComuneWithMoreOneDoseFromProvince" ||
-      selectedOption === "getComuneWithMoreTwoDosesFromProvince";
+      selectedOption === "getComuneWithMoreTwoDosesFromProvince" ||
+      selectedOption === "getTotalNumberOfOneDoseFromProvince" ||
+      selectedOption === "getTotalNumberOfTwoDosesFromProvince" 
+      ;
     setShowDropDown(shouldShowDropdown);
   }, [selectedOption]);
 
-  const actions = {
+  useEffect(() => {
+    console.log(dosiAmmount);
+    if (dosiAmmount !== 0) {
+      setShowModal(true);
+    }
+  }, [dosiAmmount]);
+
+  const actionsGetComunes = {
     getComunesOrderedByTwoDoses,
     getComuneWithMoreOneDose,
     getComuneWithMoreTwoDoses,
@@ -40,11 +57,21 @@ const Header = ({ setComunes, siglas }) => {
       getComuneWithMoreOneDoseFromProvince(selectedSigla),
     getComuneWithMoreTwoDosesFromProvince: () =>
       getComuneWithMoreTwoDosesFromProvince(selectedSigla),
+
     // Add more actions
   };
 
-  const performAction = () => {
-    const action = actions[selectedOption];
+  const actionsNumberDosi = {
+    getTotalNumberOfOneDose,
+    getTotalNumberOfTwoDoses,
+    getTotalNumberOfOneDoseFromProvince: () =>
+      getTotalNumberOfOneDoseFromProvince(selectedSigla),
+    getTotalNumberOfTwoDosesFromProvince: () =>
+      getTotalNumberOfTwoDosesFromProvince(selectedSigla),
+  };
+
+  const performActionGetComunes = () => {
+    const action = actionsGetComunes[selectedOption];
     if (action) {
       action()
         .then((res) => res.json())
@@ -61,9 +88,32 @@ const Header = ({ setComunes, siglas }) => {
     }
   };
 
+  const performActionNumberDosi = () => {
+    const action = actionsNumberDosi[selectedOption];
+    if (action) {
+      action()
+        .then((res) => res.json())
+        .then((data) => {
+          setDosiAmmount(data);
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
+
+      console.log(`Performing ${selectedOption}`);
+    } else {
+      console.log("No action selected");
+    }
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    performAction();
+    console.log(selectedOption);
+    if (Object.keys(actionsGetComunes).includes(selectedOption)) {
+      performActionGetComunes();
+    } else {
+      performActionNumberDosi();
+    }
   };
 
   return (
@@ -73,34 +123,38 @@ const Header = ({ setComunes, siglas }) => {
         <select value={selectedOption} onChange={handleOptionChange} function>
           <option value="">Select an option</option>
 
-          <option value="getComunesOrderedByTwoDoses">Get all Comunes</option>
+          <option value="getComunesOrderedByTwoDoses">All Comunes</option>
 
           <option value="getComuneWithMoreOneDose">
-            Comune with more first dose
+            Comune with more 1st dose
           </option>
           <option value="getComuneWithMoreTwoDoses">
-            getComuneWithMoreTwoDoses
+          Comune with more 2nd dose
           </option>
           <option value="getComuneWithLessOneDose">
-            getComuneWithLessOneDose
+            Comune with less 1st dose
           </option>
 
           <option value="getComunesOrderedByTwoDosesFromProvince">
-            getComunesOrderedByTwoDosesFromProvince
+            All Comunes from Province
           </option>
 
           <option value="getComuneWithMoreOneDoseFromProvince">
-            getComuneWithMoreOneDoseFromProvince
+            Comune with more 1st dose from province
           </option>
 
           <option value="getComuneWithMoreTwoDosesFromProvince">
-            getComuneWithMoreTwoDosesFromProvince
+          Comune with more 2nd dose from province
           </option>
 
-          <option value="action8">Action 8</option>
-          <option value="action9">Action 9</option>
-          <option value="action10">Action 10</option>
-          <option value="action11">Action 11</option>
+          <option value="getTotalNumberOfOneDose">
+            Total number of 1st dose
+          </option>
+          <option value="getTotalNumberOfTwoDoses">
+            Total number of 2nd dose
+          </option>
+          <option value="getTotalNumberOfOneDoseFromProvince">Total number of 1st dose from province</option>
+          <option value="getTotalNumberOfTwoDosesFromProvince">Total number of 2nd dose from province</option>
         </select>
         <div>
           <DropDown
@@ -109,6 +163,13 @@ const Header = ({ setComunes, siglas }) => {
             showDropdown={showDropdown}
           />
         </div>
+        <MyModal
+          showModal={showModal}
+          setShowModal={setShowModal}
+          selectedOption={selectedOption}
+          dosiAmmount={dosiAmmount}
+          selectedSigla={selectedSigla}
+        />
         <button type="submit">Submit</button>
       </form>
     </header>

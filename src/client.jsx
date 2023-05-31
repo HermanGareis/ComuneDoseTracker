@@ -45,4 +45,24 @@ export const getComuneWithMoreTwoDosesFromProvince = (selectedSigla) =>
     `http://localhost:9191/api/comunes/getComuneWithMoreTwoDosesFromProvince/${selectedSigla}`
   ).then(checkStatus);
 
-//getComuneWithMoreTwoDoses
+export const getTotalNumberOfOneDose = () =>
+  fetch("http://localhost:9191/api/comunes/getTotalNumberOfOneDose").then(
+    checkStatus
+  );
+
+  export const getTotalNumberOfTwoDoses = () =>
+  fetch("http://localhost:9191/api/comunes/getTotalNumberOfTwoDoses").then(
+    checkStatus
+  );
+
+  export const getTotalNumberOfOneDoseFromProvince = (selectedSigla) =>
+  fetch(
+    `http://localhost:9191/api/comunes/getTotalNumberOfOneDoseFromProvince/${selectedSigla}`
+  ).then(checkStatus);
+
+  export const getTotalNumberOfTwoDosesFromProvince = (selectedSigla) =>
+  fetch(
+    `http://localhost:9191/api/comunes/getTotalNumberOfTwoDosesFromProvince/${selectedSigla}`
+  ).then(checkStatus);
+
+  

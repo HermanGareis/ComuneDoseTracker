@@ -1,35 +1,28 @@
 import React from "react";
-import "bootstrap/dist/css/bootstrap.css";
-import { Table } from "react-bootstrap";
 import "./styles.css";
 
+import {AgGridReact} from 'ag-grid-react';
+
+import 'ag-grid-community/styles//ag-grid.css';
+import 'ag-grid-community/styles//ag-theme-alpine.css';
+
 export function MyTable({ items }) {
+  const columnDefs = [
+    { headerName: 'Comune', field: 'comune' },
+    { headerName: 'Provincia', field: 'provincia' },
+    { headerName: 'Sigla', field: 'sigla' },
+    { headerName: 'Dose 1', field: 'dose1' },
+    { headerName: 'Dose 2', field: 'dose2' },
+    { headerName: 'Booster', field: 'booster' },
+  ];
+
+
   return (
-    <Table striped bordered hover>
-      <thead>
-        <tr>
-          <th>#</th> 
-          <th>Comune</th>
-          <th>Provincia</th>
-          <th>Sigla</th>
-          <th>Dose 1</th>
-          <th>Dose 2</th>
-          <th>Booster</th>
-        </tr>
-      </thead>
-      <tbody>
-        {items.map((item, index) => (
-          <tr key={item.codice}>
-            <td>{index + 1}</td> 
-            <td>{item.comune}</td>
-            <td>{item.provincia}</td>
-            <td>{item.sigla}</td>
-            <td>{item.dose1}</td>
-            <td>{item.dose2}</td>
-            <td>{item.booster}</td>
-          </tr>
-        ))}
-      </tbody>
-    </Table>
+    <div className="ag-theme-alpine" style={{ height: '400px', width: '100%' }}>
+      <AgGridReact
+        rowData={items}
+        columnDefs={columnDefs}
+      />
+    </div>
   );
 }
