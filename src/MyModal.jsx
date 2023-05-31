@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import "bootstrap/dist/css/bootstrap.css";
 import {Modal, Button} from 'react-bootstrap';
 
-const MyModal = ({showModal, setShowModal, dosiAmmount, selectedOption, selectedSigla}) => {
+const MyModal = ({showModal, setShowModal, dosiAmmount, setDosiAmmount, selectedOption, selectedSigla}) => {
   
 
   const handleClose = () => {
     setShowModal(false);
+    setDosiAmmount(0)
   };
 
 
@@ -20,7 +21,7 @@ const MyModal = ({showModal, setShowModal, dosiAmmount, selectedOption, selected
           <p>The total number is: {dosiAmmount}</p>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button variant="danger" onClick={handleClose}>
             Close
           </Button>
         </Modal.Footer>

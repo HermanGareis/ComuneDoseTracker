@@ -34,8 +34,7 @@ const Header = ({ setComunes, siglas }) => {
       selectedOption === "getComuneWithMoreOneDoseFromProvince" ||
       selectedOption === "getComuneWithMoreTwoDosesFromProvince" ||
       selectedOption === "getTotalNumberOfOneDoseFromProvince" ||
-      selectedOption === "getTotalNumberOfTwoDosesFromProvince" 
-      ;
+      selectedOption === "getTotalNumberOfTwoDosesFromProvince";
     setShowDropDown(shouldShowDropdown);
   }, [selectedOption]);
 
@@ -57,8 +56,6 @@ const Header = ({ setComunes, siglas }) => {
       getComuneWithMoreOneDoseFromProvince(selectedSigla),
     getComuneWithMoreTwoDosesFromProvince: () =>
       getComuneWithMoreTwoDosesFromProvince(selectedSigla),
-
-    // Add more actions
   };
 
   const actionsNumberDosi = {
@@ -86,6 +83,7 @@ const Header = ({ setComunes, siglas }) => {
     } else {
       console.log("No action selected");
     }
+    setSelectedSigla("")
   };
 
   const performActionNumberDosi = () => {
@@ -118,7 +116,7 @@ const Header = ({ setComunes, siglas }) => {
 
   return (
     <header>
-      <h3>Header</h3>
+      <h3>Lombardia Comune Doses</h3>
       <form onSubmit={handleSubmit}>
         <select value={selectedOption} onChange={handleOptionChange} function>
           <option value="">Select an option</option>
@@ -129,7 +127,7 @@ const Header = ({ setComunes, siglas }) => {
             Comune with more 1st dose
           </option>
           <option value="getComuneWithMoreTwoDoses">
-          Comune with more 2nd dose
+            Comune with more 2nd dose
           </option>
           <option value="getComuneWithLessOneDose">
             Comune with less 1st dose
@@ -144,7 +142,7 @@ const Header = ({ setComunes, siglas }) => {
           </option>
 
           <option value="getComuneWithMoreTwoDosesFromProvince">
-          Comune with more 2nd dose from province
+            Comune with more 2nd dose from province
           </option>
 
           <option value="getTotalNumberOfOneDose">
@@ -153,8 +151,12 @@ const Header = ({ setComunes, siglas }) => {
           <option value="getTotalNumberOfTwoDoses">
             Total number of 2nd dose
           </option>
-          <option value="getTotalNumberOfOneDoseFromProvince">Total number of 1st dose from province</option>
-          <option value="getTotalNumberOfTwoDosesFromProvince">Total number of 2nd dose from province</option>
+          <option value="getTotalNumberOfOneDoseFromProvince">
+            Total number of 1st dose from province
+          </option>
+          <option value="getTotalNumberOfTwoDosesFromProvince">
+            Total number of 2nd dose from province
+          </option>
         </select>
         <div>
           <DropDown
@@ -168,6 +170,7 @@ const Header = ({ setComunes, siglas }) => {
           setShowModal={setShowModal}
           selectedOption={selectedOption}
           dosiAmmount={dosiAmmount}
+          setDosiAmmount={setDosiAmmount}
           selectedSigla={selectedSigla}
         />
         <button type="submit">Submit</button>
